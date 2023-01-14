@@ -2,21 +2,21 @@
 Code by Rishav Bhagat
 */
 
-
 // Linkers
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+
 // Prototypes
 void merge(int arr[], int p, int q, int r);
 void merger(int arr[], int first, int last);
 void array_gen();
 void array_disp();
-void selection_sort(int arr[], int first, int last);
+
 
 // Global 
 
-#define SIZE 1000
+#define SIZE 20
 #define RANGE 1000
 int arr[SIZE];
 
@@ -25,8 +25,7 @@ void main()
 {
     array_gen();
     array_disp();
-    //merger(arr, 0, SIZE - 1);
-    selection_sort(arr, 0, SIZE - 1);
+    merger(arr, 0, SIZE - 1);
     array_disp();
 }
 
@@ -75,24 +74,25 @@ void merge(int arr[], int p, int q, int r)
     int n1 = q - p + 1;
     int n2 = r - q;
 
-    int left[n1 + 1], right[n2 + 1];
+    // Creating arrays of size as required
+    int left[n1], right[n2];
 
+    // Copying the first array
     for (int i = 0; i < n1; i++)
     {
         left[i] = arr[p + i];
     }
     
+    // Copying the second array
     for (int i = 0; i < n2; i++)
     {
         right[i] = arr[q + 1 + i];
     }
-
-    left[n1]  = 2147483647;
-    right[n2] = 2147483647;  
+ 
 
     for ( int k = p, i = 0, j = 0; k < r + 1; k++)
     {
-        if (left[i] <= right[j])
+        if ((left[i] <= right[j] && i != n1) || j == n2)
         {
             arr[k] = left[i];
             ++ i; 
@@ -106,44 +106,20 @@ void merge(int arr[], int p, int q, int r)
     
 }
 
-// 2.2-2
-void selection_sort(int arr[], int first, int last)
-{
-    // looping from the start to the end
-    for(int i = 0; i <= last; ++i)
-    {
-        // reset min, and pos
-        int min = arr[i], pos = i;
-        // Checking fro the least element in remaing portion of the array
-        for (int j = i + 1; j <= last; ++j)
-        {
-            // Finding the min element
-            if(arr[j] < min)
-            {
-                // Saving the position
-                min = arr[j];
-                pos = j;
-            }
-        }
-
-        // Swapping the min element with i^th element ,
-        // Hence bringing least ele first, 2^nd smallest 2^nd so on.. 
-
-        arr[pos] = arr[i];
-        arr[i] = min;
-    }
-
-    return;
-}
 
 /*
 In the module herin we have discussed the following topics
-    2.2 Runtimes, an informal introduction to thetha of n, or worst case run time complexity.
+    2.3 Designing Algorithms 1.Divide & Conquer 2.Analyzing divide & conquer algo 
+    
     Exercises
-        2.2-1 0(n^3): Since the highest ordered terms order is the power / exponent at which the 
-                        function grows.
-        2.2-2       : Implementation of Selection Sort.
-        2.2-3       :           
-
+        2.3-1:
         
+        A = {3; 41; 52; 26; 38; 57; 9; 49}
+        a1 = {3; 41; 52; 26}        a2 = {38; 57; 9; 49}
+        a1-1 = {3; 41}  a1-2 = {52; 26}     a2-1 = {38; 57} a2-2 = {9; 49}
+        
+        // Merging Step
+        a1-1 = {3; 41}  a1-2 = {26; 52}     a2-1 = {38; 57} a2-2 = {9; 49}
+        a1 = {3; 26; 41; 52}        a2 = { 9; 38; 57; 49}
+        return sorted
 */
